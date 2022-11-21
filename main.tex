@@ -1,0 +1,166 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pagecolor}
+\usepackage{Oswald}
+\usepackage[T1]{fontenc}
+\usepackage[document]{ragged2e}
+\usepackage{tabularx}
+
+\newcommand*{\helveticaFont}{\fontfamily{phv}\selectfont}
+\newcommand*{\normalFont}{\fontfamily{ppl}\selectfont}
+
+\pagenumbering{gobble}
+
+% TABLE CUSTOMIZATION
+%--------------------------------
+\usepackage{spreadtab}
+\usepackage[compact]{titlesec} % For customizing title sections
+\titlespacing*{\section}{0pt}{3pt}{-7pt} % Remove margin bottom from the title
+\usepackage{arydshln} % For the dotted line on the table
+\renewcommand{\arraystretch}{1.5} % Apply vertical padding to table cells
+\usepackage{hhline} % For single-cell borders
+\usepackage{enumitem} % For customizing lists
+\setlist{nolistsep} % No whitespace around list items
+\setlist[itemize]{leftmargin=0.5cm} % Reduce list left indent
+\setlength{\tabcolsep}{9pt} % Larger gutter between columns
+\usepackage{array,etoolbox}
+\preto\tabular{\setcounter{magicrownumbers}{0}}
+\newcounter{magicrownumbers}
+\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+
+% input commands
+%<{"type": "group", "description": "Your details"}
+\newcommand{\myName}{
+\textbf{John Craft}%<{"type": "text", "description": "Your name"}>
+}
+\newcommand{\myAddress}{
+{Street 093}%<{"type": "text", "description": "Your address"}>
+}
+\newcommand{\myCity}{
+{Berlin}%<{"type": "text", "description": "Your city"}>
+}
+\newcommand{\myPostalCode}{
+{10155}%<{"type": "text", "description": "Your postal code"}>
+}
+\newcommand{\myCurrency}{
+{EUR}%<{"type": "text", "description": "Currency e.g. EUR"}>
+}
+%>
+
+% For invoice math
+\RequirePackage{fp}
+
+% Formatting numbers
+\RequirePackage{siunitx}
+\sisetup{round-integer-to-decimal, group-separator={,}}
+
+%--------- calculate total ----------
+
+
+\gdef\InvoiceTotal{0}
+
+\newcommand*{\formatcurrency}[1]{%
+    \num[ round-mode=places,% Round output to specified number of places
+  round-precision=2,]{#1}%
+}
+
+\newcommand*{\calcamount}[1]{%
+    \FPadd\gt{#1}{\InvoiceTotal}%
+    \global\let\InvoiceTotal\gt%
+    \footnotesize\formatcurrency{#1}%
+%
+}
+
+\newcommand*{\vatPercentage}
+{20}%<{"type": "number", "description": "VAT percentage", "isInteger": true, "min": 0, "max": 100}>
+
+\newcommand*{\calcGross}{%
+\FPmul\decimalVat{\vatPercentage}{0.01}
+\FPmul\vatPrice{\InvoiceTotal}{\decimalVat}
+\formatcurrency{\vatPrice}
+\FPadd\gt{\vatPrice}{\InvoiceTotal}%
+\global\let\InvoiceTotal\gt%
+%
+}
+
+
+%------------------------------------
+
+
+\definecolor{backgroundColor}{HTML}
+{e7e6e2}
+
+\usepackage{xspace}
+
+\begin{document}
+\pagecolor{backgroundColor}
+{\bfseries\helveticaFont \myName}
+\normalFont  -{\myAddress } -\myPostalCode \myCity\\
+\vspace{0.6cm}
+%<{"type": "group", "description": "Client information"}
+{Dan Adoc}\\%<{"type": "text", "description": "Client name"}>
+{Supercoolstreet 12}\\%<{"type": "text", "description": "Street and house number"}>
+{329487 Paris}\\%<{"type": "text", "description": "City postal code and city"}>
+{France}\\%<{"type": "text", "description": "Country"}>
+%>
+\vspace{0.5cm}
+%<{"type": "group", "description": "Invoice details"}
+\hspace*{\fill}\myCity,
+ {November 19, 2022}\\%<{"type": "date", "description": "Date of invoice creation"}>
+\vspace{0.5cm}
+{\Large\bfseries Invoice \#\ignorespaces
+{19-11-2022} %<{"type": "text", "description": "Invoice ID"}>
+}\\
+\vspace{-2pt}
+% \rule{\textwidth}{0.4pt}
+\hbox to \textwidth{\leaders\hbox to 3pt{\hss \tiny. \hss}\hfil}
+\vspace{-2pt}
+\begin{tabular}{
+  >{\raggedright\arraybackslash}p{0.5cm}
+  >{\raggedright\arraybackslash}p{7.5cm}
+  >{\raggedleft\arraybackslash}p{4cm}}
+\textbf{Pos.} & \textbf{Description} & \textbf{Prices in \myCurrency} \\
+
+\hline \\ [-2.5ex]
+%<{"type": "list", "description": "Services provided"}
+    %<{"type": "group", "description": ""}
+        \footnotesize{\rownumber} &
+        \footnotesize{Fixing various UI bugs which were undetected by tests.} & %<{"type": "text", "description": "Service description"}>
+        \calcamount{50} \\ %<{"type": "number", "description": "Price for service", "noComma": true, "min": 0, "max": 999999}>
+    %>
+{\footnotesize\rownumber} & {\footnotesize Creating latex templates.} & \calcamount{100} \\
+{\footnotesize\rownumber} & {\footnotesize Refactoring them for use on app.craftadoc.com.} & \calcamount{100} \\
+%>
+%>
+\\ [-2.5ex]
+\hline \\ [-2.5ex]
+\end{tabular}
+\begin{tabular}{
+  >{\raggedright\arraybackslash}p{8cm}
+  >{\raggedleft\arraybackslash}p{2cm}
+  >{\raggedleft\arraybackslash}p{2cm}
+}
+& Subtotal: & \underline{\formatcurrency{\InvoiceTotal}}\\[-1ex]
+& {VAT \vatPercentage\%: } & \calcGross\\[-0.5ex]
+& \textbf{Total: } & \underline{\formatcurrency{\InvoiceTotal}}\\
+\end{tabular}
+
+\vspace{1cm}
+%<{"type": "group", "description": "Footer message"}
+{\footnotesize
+Please transfer the due amount to the following bank account within the next {14} days:\\ %<{"type": "number", "description": "Amount of days until due", "isInteger": true}>
+\vspace{0.3cm}
+{Mustermann GmbH}\\%<{"type": "text", "description": "Company name"}>
+{Kreditinstitut: Deutsche Postbank AG}\\%<{"type": "text", "description": "Bank name"}>
+{IBAN: DE18 3601 0043 9999 9999 99}\\%<{"type": "text", "description": "Bank account number (e.g. IBAN)"}>
+{BIC: PBNKDEFF}\\%<{"type": "text", "description": "Bank account code (e.g. BIC)"}>
+\vspace{0.3cm}
+{We really appreciate your business and look forward to future projects together.}\\ %<{"type": "textblock", "description": "Footer note (Leave empty for default note)", "deleteOnEmpty": false}>
+%>
+\vspace{0.2cm}
+Best regards,\\
+\myName
+}
+
+
+\end{document}
