@@ -2,7 +2,7 @@
 
 A [Craftadoc](https://craftadoc.com) template. (Using LaTeX.)
 
-Use this template on [app.craftadoc.com](https://app.craftadoc.com) to easily fill in this invoice example with your own information.
+A simple invoice template with automatically calculated gross total price, taking into account the VAT percentage you fill in.
 
 ### How do I use this?
 
