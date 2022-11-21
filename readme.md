@@ -1,8 +1,8 @@
-# Lost Pet Poster Template
+# Invoice With Footer Template
 
 A [Craftadoc](https://craftadoc.com) template. (Using LaTeX.)
 
-A quick way to get a a poster (letterpaper size by default) with a picture (as background) of your lost pet.
+Use this template on [app.craftadoc.com](https://app.craftadoc.com) to easily fill in this invoice example with your own information.
 
 ### How do I use this?
 
