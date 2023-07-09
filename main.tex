@@ -31,19 +31,19 @@
 % input commands
 %<{"type": "group", "description": "Your details"}
 \newcommand{\myName}{
-\textbf{John Craft}%<{"type": "text", "description": "Your name"}>
+\textbf{John Craft}%<{"type": "text", "description": "Your name", inputValue: "John Craft"}>
 }
 \newcommand{\myAddress}{
-{Street 093}%<{"type": "text", "description": "Your address"}>
+{Street 093}%<{"type": "text", "description": "Your address", inputValue: "Street 093"}>
 }
 \newcommand{\myCity}{
-{Berlin}%<{"type": "text", "description": "Your city"}>
+{Berlin}%<{"type": "text", "description": "Your city", inputValue: "Berlin"}>
 }
 \newcommand{\myPostalCode}{
-{10155}%<{"type": "text", "description": "Your postal code"}>
+{10155}%<{"type": "text", "description": "Your postal code", inputValue: "10155"}>
 }
 \newcommand{\myCurrency}{
-{EUR}%<{"type": "text", "description": "Currency e.g. EUR"}>
+{EUR}%<{"type": "text", "description": "Currency e.g. EUR", inputValue: "EUR"}>
 }
 %>
 
@@ -72,7 +72,7 @@
 }
 
 \newcommand*{\vatPercentage}
-{20}%<{"type": "number", "description": "VAT percentage", "isInteger": true, "min": 0, "max": 100}>
+{20}%<{"type": "number", "description": "VAT percentage", "isInteger": true, "min": 0, "max": 100, inputValue: "20"}>
 
 \newcommand*{\calcGross}{%
 \FPmul\decimalVat{\vatPercentage}{0.01}
@@ -98,18 +98,18 @@
 \normalFont  -{\myAddress } -\myPostalCode \myCity\\
 \vspace{0.6cm}
 %<{"type": "group", "description": "Client information"}
-{Dan Adoc}\\%<{"type": "text", "description": "Client name"}>
-{Supercoolstreet 12}\\%<{"type": "text", "description": "Street and house number"}>
-{329487 Paris}\\%<{"type": "text", "description": "City postal code and city"}>
-{France}\\%<{"type": "text", "description": "Country"}>
+{Dan Adoc}\\%<{"type": "text", "description": "Client name", inputValue: "Dan Adoc"}>
+{Supercoolstreet 12}\\%<{"type": "text", "description": "Street and house number", inputValue: "Supercoolstreet 12"}>
+{329487 Paris}\\%<{"type": "text", "description": "City postal code and city", inputValue: "329487 Paris"}>
+{France}\\%<{"type": "text", "description": "Country", inputValue: "France"}>
 %>
 \vspace{0.5cm}
 %<{"type": "group", "description": "Invoice details"}
 \hspace*{\fill}\myCity,
- {November 19, 2022}\\%<{"type": "date", "description": "Date of invoice creation"}>
+ {November 19, 2022}\\%<{"type": "text", "description": "Date of invoice creation", inputValue: "November 19, 2022"}>
 \vspace{0.5cm}
 {\Large\bfseries Invoice \#\ignorespaces
-{19-11-2022} %<{"type": "text", "description": "Invoice ID"}>
+{19-11-2022} %<{"type": "text", "description": "Invoice ID", inputValue: "19-11-2022"}>
 }\\
 \vspace{-2pt}
 % \rule{\textwidth}{0.4pt}
@@ -125,11 +125,19 @@
 %<{"type": "list", "description": "Services provided"}
     %<{"type": "group", "description": ""}
         \footnotesize{\rownumber} &
-        \footnotesize{Fixing various UI bugs which were undetected by tests.} & %<{"type": "text", "description": "Service description"}>
-        \calcamount{50} \\ %<{"type": "number", "description": "Price for service", "noComma": true, "min": 0, "max": 999999}>
+        \footnotesize{Fixing various UI bugs which were undetected by tests.} & %<{"type": "text", "description": "Service description", inputValue: "Fixing various UI bugs which were undetected by tests."}>
+        \calcamount{50} \\ %<{"type": "number", "description": "Price for service", "noComma": true, "min": 0, "max": 999999, inputValue: 50}>
     %>
-{\footnotesize\rownumber} & {\footnotesize Creating latex templates.} & \calcamount{100} \\
-{\footnotesize\rownumber} & {\footnotesize Refactoring them for use on app.craftadoc.com.} & \calcamount{100} \\
+    %<{"type": "group", "description": ""}
+        \footnotesize{\rownumber} &
+        \footnotesize{Creating latex templates.} & %<{"type": "text", "description": "Service description", inputValue: "Creating latex templates."}>
+        \calcamount{100} \\ %<{"type": "number", "description": "Price for service", "noComma": true, "min": 0, "max": 999999, inputValue: 100}>
+    %>
+    %<{"type": "group", "description": ""}
+        \footnotesize{\rownumber} &
+        \footnotesize{Refactoring them for use on app.craftadoc.com.} & %<{"type": "text", "description": "Service description", inputValue: "Refactoring them for use on app.craftadoc.com."}>
+        \calcamount{100} \\ %<{"type": "number", "description": "Price for service", "noComma": true, "min": 0, "max": 999999, inputValue: 100}>
+    %>
 %>
 %>
 \\ [-2.5ex]
@@ -148,14 +156,14 @@
 \vspace{1cm}
 %<{"type": "group", "description": "Footer message"}
 {\footnotesize
-Please transfer the due amount to the following bank account within the next {14} days:\\ %<{"type": "number", "description": "Amount of days until due", "isInteger": true}>
+Please transfer the due amount to the following bank account within the next {14} days:\\ %<{"type": "number", "description": "Amount of days until due", "isInteger": true, inputValue: 14}>
 \vspace{0.3cm}
-{Mustermann GmbH}\\%<{"type": "text", "description": "Company name"}>
-{Kreditinstitut: Deutsche Postbank AG}\\%<{"type": "text", "description": "Bank name"}>
-{IBAN: DE18 3601 0043 9999 9999 99}\\%<{"type": "text", "description": "Bank account number (e.g. IBAN)"}>
-{BIC: PBNKDEFF}\\%<{"type": "text", "description": "Bank account code (e.g. BIC)"}>
+{Mustermann GmbH}\\%<{"type": "text", "description": "Company name", inputValue: "Mustermann GmbH"}>
+{Kreditinstitut: Deutsche Postbank AG}\\%<{"type": "text", "description": "Bank name", inputValue: "Kreditinstitut: Deutsche Postbank AG"}>
+{IBAN: DE18 3601 0043 9999 9999 99}\\%<{"type": "text", "description": "Bank account number (e.g. IBAN)", inputValue: "IBAN: DE18 3601 0043 9999 9999 99"}>
+{BIC: PBNKDEFF}\\%<{"type": "text", "description": "Bank account code (e.g. BIC)", inputValue: "BIC: PBNKDEFF"}>
 \vspace{0.3cm}
-{We really appreciate your business and look forward to future projects together.}\\ %<{"type": "textblock", "description": "Footer note (Leave empty for default note)", "deleteOnEmpty": false}>
+{We really appreciate your business and look forward to future projects together.}\\ %<{"type": "textblock", "description": "Footer note", "deleteOnEmpty": false, inputValue: "We really appreciate your business and look forward to future projects together."}>
 %>
 \vspace{0.2cm}
 Best regards,\\
